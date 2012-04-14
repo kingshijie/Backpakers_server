@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2012 年 04 月 13 日 16:30
+-- 生成日期: 2012 年 04 月 13 日 19:28
 -- 服务器版本: 5.1.61
 -- PHP 版本: 5.3.6-13ubuntu3.6
 
@@ -27,9 +27,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `abilities` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ability_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `description` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`ability_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -39,14 +39,14 @@ CREATE TABLE IF NOT EXISTS `abilities` (
 --
 
 CREATE TABLE IF NOT EXISTS `additions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `author_id` int(10) unsigned NOT NULL,
-  `module` tinyint(3) unsigned NOT NULL,
+  `addition_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `module_id` tinyint(3) unsigned NOT NULL,
   `item` int(10) unsigned NOT NULL,
-  `cheker_id` int(10) unsigned NOT NULL,
+  `admin_id` int(10) unsigned NOT NULL,
   `is_approve` tinyint(4) NOT NULL,
   `is_checking` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`addition_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -56,10 +56,10 @@ CREATE TABLE IF NOT EXISTS `additions` (
 --
 
 CREATE TABLE IF NOT EXISTS `admins` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `admin_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
   `password` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`admin_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `admin_ability` (
 --
 
 CREATE TABLE IF NOT EXISTS `campings` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `camping_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `score` int(10) unsigned NOT NULL,
   `voted` int(10) unsigned NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `campings` (
   `description` varchar(280) NOT NULL,
   `notice` varchar(280) NOT NULL,
   `is_approve` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`camping_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -100,10 +100,10 @@ CREATE TABLE IF NOT EXISTS `campings` (
 --
 
 CREATE TABLE IF NOT EXISTS `cities` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `city_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(10) NOT NULL,
   `province_id` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`city_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -113,12 +113,12 @@ CREATE TABLE IF NOT EXISTS `cities` (
 --
 
 CREATE TABLE IF NOT EXISTS `comments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `author_id` int(10) unsigned NOT NULL,
-  `module` tinyint(3) unsigned NOT NULL,
+  `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `module_id` tinyint(3) unsigned NOT NULL,
   `item` int(10) unsigned NOT NULL,
   `contents` varchar(280) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`comment_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -128,18 +128,18 @@ CREATE TABLE IF NOT EXISTS `comments` (
 --
 
 CREATE TABLE IF NOT EXISTS `editions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `author_id` int(10) unsigned NOT NULL,
-  `module` tinyint(3) unsigned NOT NULL,
+  `edition_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `module_id` tinyint(3) unsigned NOT NULL,
   `item` int(10) unsigned NOT NULL,
   `x` float NOT NULL,
   `y` float NOT NULL,
   `description` varchar(280) NOT NULL,
   `notice` varchar(280) NOT NULL,
-  `checker_id` int(10) unsigned NOT NULL,
+  `admin_id` int(10) unsigned NOT NULL,
   `is_approve` tinyint(4) NOT NULL,
   `is_checking` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`edition_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `editions` (
 --
 
 CREATE TABLE IF NOT EXISTS `hostels` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `hostel_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `score` int(10) unsigned NOT NULL,
   `voted` int(10) unsigned NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `hostels` (
   `description` varchar(280) NOT NULL,
   `notice` varchar(280) NOT NULL,
   `is_approve` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`hostel_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -170,10 +170,10 @@ CREATE TABLE IF NOT EXISTS `hostels` (
 --
 
 CREATE TABLE IF NOT EXISTS `messages` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `to_whom` int(10) unsigned NOT NULL,
+  `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
   `contents` text NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`message_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -183,16 +183,16 @@ CREATE TABLE IF NOT EXISTS `messages` (
 --
 
 CREATE TABLE IF NOT EXISTS `modules` (
-  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `module_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`module_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- 转存表中的数据 `modules`
 --
 
-INSERT INTO `modules` (`id`, `name`) VALUES
+INSERT INTO `modules` (`module_id`, `name`) VALUES
 (1, '旅店'),
 (2, '露营点'),
 (3, '旅游点');
@@ -204,9 +204,9 @@ INSERT INTO `modules` (`id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `provinces` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `province_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`province_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -216,14 +216,14 @@ CREATE TABLE IF NOT EXISTS `provinces` (
 --
 
 CREATE TABLE IF NOT EXISTS `reports` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `author_id` int(10) unsigned NOT NULL,
-  `module` int(10) unsigned NOT NULL,
+  `report_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `module_id` int(10) unsigned NOT NULL,
   `item` int(10) unsigned NOT NULL,
-  `checker_id` int(10) unsigned NOT NULL,
+  `admin_id` int(10) unsigned NOT NULL,
   `contents` text NOT NULL,
   `is_checking` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`report_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `reports` (
 --
 
 CREATE TABLE IF NOT EXISTS `sceneries` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `scenery_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `score` int(10) unsigned NOT NULL,
   `voted` int(10) unsigned NOT NULL,
@@ -242,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `sceneries` (
   `description` varchar(280) NOT NULL,
   `notice` varchar(280) NOT NULL,
   `is_approve` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`scenery_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -252,14 +252,14 @@ CREATE TABLE IF NOT EXISTS `sceneries` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
   `password` varchar(64) NOT NULL,
   `is_banned` tinyint(1) NOT NULL,
   `sex` tinyint(1) NOT NULL,
-  `birth_place` smallint(5) unsigned NOT NULL,
-  `live_place` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
+  `birth_city` smallint(5) unsigned NOT NULL,
+  `live_city` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
