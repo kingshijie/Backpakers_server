@@ -7,21 +7,20 @@
 <div id="err_msg"><{$err_msg}></div>
 <div id="body">
 <{if 'index' == $op}>
-	<a href="<{spUrl c=admin_abilities a=add_ability_show}>">新建权限</a>
+	<a href="<{spUrl c=admin_abilities a=show_add}>">新建权限</a>
 	<table border="1" width="500">
 	<tr><td>编号</td><td>描述</td><td>操作</td></tr>
-		<{foreach from=$ability_list item=ability}>
-			<tr><td><{$ability.ability_id}></td><td><{$ability.description}></td><td><a href="<{spUrl c=admin_abilities a=edit_ability_show ability_id=$ability.ability_id}>">编辑</a>&nbsp;<a href="<{spUrl c=admin_abilities a=del_ability ability_id=$ability.ability_id}>" onclick="return del_confirm()">删除</a></td></tr>
+		<{foreach from=$list item=ability}>
+			<tr><td><{$ability.ability_id}></td><td><{$ability.description}></td><td><a href="<{spUrl c=admin_abilities a=show_edit ability_id=$ability.ability_id}>">编辑</a>&nbsp;<a href="<{spUrl c=admin_abilities a=del ability_id=$ability.ability_id}>" onclick="return del_confirm()">删除</a></td></tr>
 		<{/foreach}>
-		<tr>	
 	</table>
 <{else if 'add' == $op}>
-	<form action="<{spUrl c=admin_abilities a=add_ability_do}>" method="post">
+	<form action="<{spUrl c=admin_abilities a=do_add}>" method="post">
 	描述<input type="text" name="description"/><br>
 	<input type="submit" value="提交">
 	</form>
 <{else if 'edit' == $op}>
-	<form action="<{spUrl c=admin_abilities a=edit_ability_do}>" method="post">
+	<form action="<{spUrl c=admin_abilities a=do_edit}>" method="post">
 	描述<input type="text" name="description" value="<{$ability.description}>"/><br>
 	<input type="hidden" name="ability_id" value="<{$ability.ability_id}>"/>
 	<input type="submit" value="提交">

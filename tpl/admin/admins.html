@@ -1,0 +1,46 @@
+<{include file="admin/menu.html"}>
+<div class="main_header">
+	<div id="icon-center" class="icon32"><br /></div> 
+	<h2>管理员管理</h2>
+</div>
+<div class="content">
+<div id="err_msg"><{$err_msg}></div>
+<div id="body">
+<{if 'index' == $op}>
+	<a href="<{spUrl c=admin_admins a=show_add}>">新建管理员</a>
+	<table border="1" width="500">
+	<tr><td>编号</td><td>用户名</td><td>用户组</td><td>操作</td></tr>
+		<{foreach from=$list item=admin}>
+			<tr><td><{$admin.admin_id}></td><td><{$admin.username}></td><td><{$admin.group.name}></td><td><a href="<{spUrl c=admin_admins a=show_edit admin_id=$admin.admin_id}>">编辑</a>&nbsp;<a href="<{spUrl c=admin_admins a=del admin_id=$admin.admin_id}>" onclick="return del_confirm()">删除</a></td></tr>
+		<{/foreach}>
+	</table>
+<{else if 'add' == $op}>
+	<form action="<{spUrl c=admin_admins a=do_add}>" method="post">
+	用户名<input type="text" name="username" value=""/><br>
+	密码<input type="password" name="password"/><br>
+	密码确认<input type="password" name="confirm_password"/><br>
+	所在用户组
+	<select name="group_id">
+		<{foreach from=$groups item=group}>
+			<option value="<{$group.group_id}>"><{$group.name}></option>		
+		<{/foreach}>	
+	</select><br>
+	<input type="submit" value="提交">
+	</form>
+<{else if 'edit' == $op}>
+	密码为空则不做修改
+	<form action="<{spUrl c=admin_admins a=do_edit}>" method="post">
+	密码<input type="password" name="password"/><br>
+	密码确认<input type="password" name="confirm_password"/><br>
+	所在用户组
+	<select name="group_id">
+		<{foreach from=$groups item=group}>
+			<option value="<{$group.group_id}>" <{if $admin.group_id == $group.group_id}>selected<{/if}> ><{$group.name}></option>		
+		<{/foreach}>	
+	</select><br>
+	<input type="hidden" value="<{$admin.admin_id}>" name="admin_id">
+	<input type="submit" value="提交">
+	</form>
+<{/if}>
+</div>
+</div>

@@ -1,0 +1,44 @@
+<{include file="admin/menu.html"}>
+<div class="main_header">
+	<div id="icon-center" class="icon32"><br /></div> 
+	<h2>用户组管理</h2>
+</div>
+<div class="content">
+<div id="err_msg"><{$err_msg}></div>
+<div id="body">
+<{if 'index' == $op}>
+	<a href="<{spUrl c=admin_groups a=show_add}>">新建用户组</a>
+	<table border="1" width="800">
+	<tr><td>编号</td><td>用户组</td><td>权限</td><td width="60">操作</td></tr>
+		<{foreach from=$list item=group}>
+			<tr><td><{$group.group_id}></td>
+			<td><{$group.name}></td>
+			<td>
+				<{foreach from=$group.abilities item=ability}>
+					<{$ability.description}>;
+				<{/foreach}>
+			</td>
+			<td><a href="<{spUrl c=admin_groups a=show_edit group_id=$group.group_id}>">编辑</a>&nbsp;<a href="<{spUrl c=admin_groups a=del group_id=$group.group_id}>" onclick="return del_confirm()">删除</a></td></tr>
+		<{/foreach}>
+		<tr>	
+	</table>
+<{else if 'add' == $op}>
+	<form action="<{spUrl c=admin_groups a=do_add}>" method="post">
+	用户组名称:<input type="text" name="name"/><br>
+	<{foreach from=$abilities item=ability}>
+		<label><input type="checkbox" name="abilities[]" value="<{$ability.ability_id}>" /><{$ability.description}></label><br>
+	<{/foreach}>
+	<input type="submit" value="提交">
+	</form>
+<{else if 'edit' == $op}>
+	<form action="<{spUrl c=admin_groups a=do_edit}>" method="post">
+	用户组名称:<input type="text" name="name" value="<{$group.name}>"/><br>
+	<{foreach from=$abilities item=ability}>
+		<label><input type="checkbox" name="abilities[]" value="<{$ability.ability_id}>" <{is_checked ability=$ability.ability_id abilities=$group.abilities}> /><{$ability.description}></label><br>
+	<{/foreach}>
+	<input type="hidden" name="group_id" value="<{$group.group_id}>"/>
+	<input type="submit" value="提交">
+	</form>
+<{/if}>
+</div>
+</div>
