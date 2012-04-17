@@ -3,7 +3,7 @@ import (APP_PATH.'/controller/general.php');
 class main extends general
 {
 	function index(){
-		echo "Enjoy, Speed of PHP!";
+		$this->display('index.html');
 	}
 	
 	/**
@@ -25,7 +25,7 @@ class main extends general
 				}else{
 					//登陆成功
 					$_SESSION['user_info'] = $result;//写入SESSION
-					$response = $this->success_msg();
+					$response = $this->success_msg($result);
 				}	
 			}else{
 				//用户输入错误
@@ -69,12 +69,14 @@ class main extends general
 	}
 	
 	
+	
 	/**
 	 * Android平台的用户登陆
 	 * 
 	 */
 	function android_login(){
 		$response = $this->login();
+		//dump($response);
 		//返回json结果
 		echo $this->json_response($response);
 	}

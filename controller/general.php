@@ -7,10 +7,6 @@
  */
 class general extends spController
 {
-	/**
-	 * 默认风格
-	 */
-	var $themes = "default";
 	
 	/**
 	 * 站点配置
@@ -44,32 +40,16 @@ class general extends spController
 	/**
 	 * 显示模板的同时将输出侧栏
 	 */
-	public function display($tplname, $output = TRUE)
+	public function display($tplname, $output = FALSE)
 	{
-		if( FALSE == $output)return parent::display($this->defined["template"]."/".$tplname, $output);
-			
-		// 模板内引用文件的路径
-		$site_uri = trim(dirname($GLOBALS['G_SP']['url']["url_path_base"]),"\/\\");
-		if( '' == $site_uri ){
-			$site_uri = 'http://'.$_SERVER["HTTP_HOST"];
-		}else{
-			$site_uri = 'http://'.$_SERVER["HTTP_HOST"].'/'.$site_uri;
-		}
-		
-		$this->site_uri = $site_uri;
-		
-		// 风格路径
-		$this->themes_path = $site_uri."/themes/".$this->themes."/";
-		
-		// UCenter头像地址
-		$this->themes_ucenter_path = $GLOBALS['G_SP']['ext']['spUcenter']['UC_API'];
+		if( FALSE == $output)return parent::display($tplname);
 		
 		// 侧栏
 		$this->template_sidebar = $this->sidebar();
 		// 页面title
 		$this->template_title = $this->title. ( ($this->title != "") ? " - " : "" );
 
-		parent::display($this->defined["template"]."/".$tplname, $output);
+		parent::display($tplname, $output);
 	}
 
 	/**
@@ -106,6 +86,11 @@ class general extends spController
 		exit();
 	}
 	
+	/**
+	 * 供继承的侧栏
+	 */
+	public function sidebar(){return;}
+	
 	
 	public function json_response($result)
 	{
@@ -117,8 +102,12 @@ class general extends spController
 		return array('stat'=>'fail','err_msg'=>$err_msg);	
 	}
 	
-	public function success_msg(){
-		return array('stat'=>'success');
+	public function success_msg($result){
+		$arr = array('stat'=>'success');
+		foreach($result as $key=>$value){
+			$arr[$key] = $value;	
+		}
+		return $arr;
 	}
 	
 	public function get_first_error($result){

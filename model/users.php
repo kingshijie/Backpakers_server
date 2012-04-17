@@ -83,8 +83,7 @@ class users extends spModel
 	/**
 	 * 用户登陆
 	 * 
-	 * @param username    用户名
-	 * @param password    MD5后的密码
+	 * 
 	 */
 	public function login($values)
 	{
@@ -94,7 +93,7 @@ class users extends spModel
 		if(FALSE === $verifier_result){
 			//验证成功
 			$condition = array('username'=>$values['username'],'password'=>md5($values['password']));
-			$result = spClass("users")->find($condition,null,'user_id,username,is_banned');
+			$result = $this->find($condition,null,'user_id,username,is_banned');
 			if(FALSE == $result){
 				//登陆失败
 				return FALSE;
@@ -119,7 +118,7 @@ class users extends spModel
 			// false是通过验证，然后开始写入数据
 			// 本系统登录时需要用到spAcl加密密码框，所以密码还要MD5一下。
 			$values["password"] = md5($values["password"]);
-			$uid = spClass("users")->create($values);
+			$uid = $this->create($values);
 			if($uid <= 0) { // 没有返回用户ID，注册不成功
 				return FALSE;
 			}else{
@@ -139,10 +138,19 @@ class users extends spModel
 	 */
 	public function checkusername($val, $right) // 注意，这里的$right就是TRUE
 	{
-		if( spClass("users")->find(array('username'=>$val))){ 
+		if($this->find(array('username'=>$val))){ 
 			return FALSE; 
 		}else{
 			return TRUE; 
+		}
+	}
+	
+	public function user_validation($user_id,$username)
+	{
+		if($this->find(array('user_id'=>$user_id,'username'=>$username,'is_banned'=>0))){
+			return TRUE;	
+		}else{
+			return FALSE;	
 		}
 	}
 }
