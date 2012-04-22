@@ -1,0 +1,36 @@
+<{include file="admin/menu.html"}>
+<div class="main_header">
+	<div id="icon-center" class="icon32"><br /></div> 
+	<h2>新增项目审查管理</h2>
+</div>
+<div class="content">
+<div id="err_msg"><{$err_msg}></div>
+<div id="body">
+	<div id="module_index">
+		<ul id="module">
+		<{if $smarty.session.abilities['审核新增的旅店']}><li class="index_block"><a href="<{spUrl c=admin_additions a=next module_name='旅店'}>">旅店</a></li><{/if}>
+		<{if $smarty.session.abilities['审核新增的旅游点']}><li class="index_block"><a href="<{spUrl c=admin_additions a=next module_name='旅游点'}>">旅游点</a></li><{/if}>
+		<{if $smarty.session.abilities['审核新增的露营点']}><li class="index_block"><a href="<{spUrl c=admin_additions a=next module_name='露营点'}>">露营点</a></li><{/if}>
+		</ul>
+	</div>
+	<{if 'show' == $op && !$empty}>
+	<div id="item">
+		<div id="appliant">申请人:<a href="" ><{$user.username}></a></div>
+		<div id="app_con">
+			申请内容:<br>
+			名称:<{$item.name}><br>
+			描述:<{$item.description}><br>
+			注意事项:<{$item.notice}>
+		</div>
+		<form method="post" action="<{spUrl c=admin_additions a=next}>">
+		<input type="hidden" name="module_name" value="<{$selected}>"/>
+		<input type="hidden" name="addition_id" value="<{$addition_id}>"/>
+		<input type="hidden" name="item" value="<{$item.item}>"/>
+		<input type="submit" name="approve" value="通过"/><input type="submit" name="approve" value="不通过"/>
+		</form>
+	</div>
+	<{else}>
+		没有需审核内容
+	<{/if}>
+</div>
+</div>

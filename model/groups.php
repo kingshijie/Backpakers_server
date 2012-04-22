@@ -28,4 +28,14 @@ class groups extends spModel
 			),
 		),
 	);
+	
+	public function get_abilities($group_id){
+		$condition = array('group_id'=>$group_id);
+		$result = $this->spLinker()->find($condition);
+		if($result){
+			return $result['abilities'];	
+		}else{
+			return FALSE;	
+		}
+	}
 }

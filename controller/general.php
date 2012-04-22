@@ -86,6 +86,8 @@ class general extends spController
 		exit();
 	}
 	
+	
+	
 	/**
 	 * 供继承的侧栏
 	 */

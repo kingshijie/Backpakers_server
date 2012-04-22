@@ -5,6 +5,8 @@ class admin_admins extends admin
 	function __construct(){
 		parent::__construct();
 		$this->module = "admins";	
+		$this->needed_abilities = '管理员管理';
+		$this->check_ability($this->needed_abilities);	
 	}
 	
 	function index(){

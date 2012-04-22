@@ -17,4 +17,13 @@ class abilities extends spModel
 			),
 		),
 	);
+	
+	function have_ability($abilities,$ability){
+		foreach($abilities as $item){
+			if($item['description'] == $ability){
+				return TRUE;	
+			}
+		}
+		return FALSE;
+	}
 }

@@ -4,7 +4,9 @@ class admin_abilities extends admin
 {
 	function __construct(){
 		parent::__construct();
-		$this->module = "abilities";	
+		$this->module = "abilities";
+		$this->needed_abilities = '权限管理';
+		$this->check_ability($this->needed_abilities);	
 	}
 	
 	function index(){

@@ -1,0 +1,25 @@
+#module_index{
+	height: 30px;
+}
+#module{
+	height: 100%;	
+}
+.index_block{
+	width: 60px;	
+	background: #8432e1;
+	display: inline-block;
+	text-align: center;
+	color: #ffffff;
+}
+.index_block_selected{
+	width: 60px;	
+	background: #8432e1;
+	display: inline-block;
+	text-align: center;
+	color: #00ffff;
+}
+#item{
+	background:#efefef;	
+	width:900px;
+	height: 250px;
+}

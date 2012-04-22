@@ -82,6 +82,60 @@ class admins extends spModel
 		),
 	);
 	
+	//登陆的验证规则
+	var $verifier_login = array(
+		"rules"=>array(
+			'username'=>array(
+				'notnull'=>TRUE,
+				'minlength'=>6,
+				'maxlength'=>100,
+			),
+			'password'=>array(
+				'notnull'=>TRUE,
+				'minlength'=>6,
+				'maxlength'=>30,	
+			),		
+		),	
+		"messages" => array( // 提示消息，从上面的rules复制下来，很快捷。
+			'username' => array(  
+				'notnull' => "用户名不能为空", 
+				'minlength' => "用户名长度不能少于6个字符",  
+				'maxlength' => "用户名长度不能大于100个字符",
+			),
+
+			'password' => array(  
+				'notnull' => "密码不能为空", 
+				'minlength' => "密码长度不能少于6个字符",  
+				'maxlength' => "密码长度不能大于30个字符", 
+			),
+		),
+	);	
+	
+	/**
+	 * 用户登陆
+	 * 
+	 * 
+	 */
+	public function login($values)
+	{
+		$this->verifier = $this->verifier_login; 
+		//验证登陆信息
+		$verifier_result = $this->spVerifier($values);
+		if(FALSE === $verifier_result){
+			//验证成功
+			$condition = array('username'=>$values['username'],'password'=>md5($values['password']));
+			$result = $this->find($condition,null,'admin_id,username,group_id');
+			if(FALSE == $result){
+				//登陆失败
+				return FALSE;
+			}else return $result;
+		}else {
+			//验证不成功，返回错误信息
+			return $verifier_result;
+		}
+	}
+	
+	
 	public function checkusername($val, $right) // 注意，这里的$right就是TRUE
 	{
 		if($this->find(array('username'=>$val))){ 
@@ -90,6 +144,8 @@ class admins extends spModel
 			return TRUE; 
 		}
 	}
+	
+	
 	function is_validate($ac,$value){
 		$action = 'verifier_'.$ac;
 		$this->verifier = $this->$action;

@@ -3,26 +3,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="tpl/css/style.css" type="text/css" />
+<link rel="stylesheet" href="tpl/css/backstage.css" type="text/css" />
 <script type="text/javascript" src="tpl/js/common.js"></script>
 </head>
 
 <body>
 <div class="head"><h1 class="left"><span id="site-title">后台</span></h1> 
 <div class="right">
-<a href="cp.php?ac=home">admin</a> | <a href="cp.php?ac=home" title="退出">退出</a>
+<a href=""><{$smarty.session.admin_info.username}></a> | <a href="<{spUrl c=admin a=logout}>" title="退出">退出</a>
 </div>
 </div>
 <ul class="admin_menu">
 	<li id="urecommend" class="menu"><a href="">用户管理</a></li>
-	<li id="urecommend" class="menu"><a href="<{spUrl c=admin_admins}>">管理员管理</a></li>
-	<li id="urecommend" class="menu"><a href="<{spUrl c=admin_groups}>">用户组管理</a></li>
-	<li id="urecommend" class="menu"><a href="<{spUrl c=admin_abilities}>">权限管理</a></li>
-	<li id="urecommend" class="menu"><a href="">旅店审核</a></li>
-	<li id="urecommend" class="menu"><a href="">露营点审核</a></li>
-	<li id="urecommend" class="menu"><a href="">旅游点审核</a></li>
-	<li id="urecommend" class="menu"><a href="">评论审核</a></li>
-	<li id="urecommend" class="menu"><a href="">短消息管理</a></li>
-	<li id="urecommend" class="menu"><a href="">举报管理</a></li>
+	<{if $smarty.session.abilities['管理员管理']}><li id="urecommend" class="menu"><a href="<{spUrl c=admin_admins}>">管理员管理</a></li><{/if}>
+	<{if $smarty.session.abilities['用户组管理']}><li id="urecommend" class="menu"><a href="<{spUrl c=admin_groups}>">用户组管理</a></li><{/if}>
+	<{if $smarty.session.abilities['权限管理']}><li id="urecommend" class="menu"><a href="<{spUrl c=admin_abilities}>">权限管理</a></li><{/if}>
+	<{if $smarty.session.abilities['审核新增的旅店'] || $smarty.session.abilities['审核新增的旅游点'] || $smarty.session.abilities['审核新增的露营点']}><li id="urecommend" class="menu"><a href="<{spUrl c=admin_additions}>">项目添加审核</a></li><{/if}>
+	<{if $smarty.session.abilities['评论审核']}><li id="urecommend" class="menu"><a href="">评论审核</a></li><{/if}>
+	<{if $smarty.session.abilities['短消息管理']}><li id="urecommend" class="menu"><a href="">短消息管理</a></li><{/if}>
+	<{if $smarty.session.abilities['审核举报信息']}><li id="urecommend" class="menu"><a href="">举报管理</a></li><{/if}>
 	<div class="footer">Copyright &copy; 2010<br />All Rights Reserved</div>
 </ul>
 

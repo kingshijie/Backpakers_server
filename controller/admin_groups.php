@@ -5,6 +5,8 @@ class admin_groups extends admin
 	function __construct(){
 		parent::__construct();
 		$this->module = "groups";	
+		$this->needed_abilities = '用户组管理';
+		$this->check_ability($this->needed_abilities);	
 		spAddViewFunction('is_checked',array('admin_groups','_is_checked'));
 	}
 		
