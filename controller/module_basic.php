@@ -20,6 +20,7 @@ class module_basic extends general
 		$creation['notice'] = $this->spArgs('notice');//注意
 		$creation['x'] = $this->spArgs('x');//坐标x
 		$creation['y'] = $this->spArgs('y');//坐标y
+		$creation['city'] = $this->spArgs('city');
 		$item = $this->table->create($creation);
 		if($item){
 			$module_id = spClass('modules')->get_module_id($this->module_name);
