@@ -114,7 +114,7 @@ class main extends general
 		$x = $this->spArgs('x');
 		$y = $this->spArgs('y');
 		$row = 'user_id,username,sex,my_x as x,my_y as y';
-		$users = spClass('users')->near_users($x,$y,$range,$row);
+		$users = spClass('users')->near_users($x,$y,$range,$row,null,null,'user_id!='.$this->spArgs('user_id'));
 		if($users){
 			return $users;
 		}else{
