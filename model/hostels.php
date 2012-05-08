@@ -1,5 +1,6 @@
 <?php
-class hostels extends spModel
+import (APP_PATH.'/model/modulesModle.php');
+class hostels extends modulesModle
 {
 	var $pk = "hostel_id";
 	var $table = "hostels";	

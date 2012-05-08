@@ -1,5 +1,6 @@
 <?php
-class sceneries extends spModel
+import (APP_PATH.'/model/modulesModle.php');
+class sceneries extends modulesModle
 {
 	var $pk = "scenery_id";
 	var $table = "sceneries";	

@@ -68,8 +68,61 @@ class main extends general
 		return $response;
 	}
 	
+	/**
+	 * 设置用户的一些参数，包括on_travel,on_listening
+	 * 
+	 */
+	function set_user_params(){
+		if($this->spArgs('user_id')){
+			
+			$condition = array(spClass('users')->pk => $this->spArgs('user_id'));
+			$row = array();
+			
+			$param = $this->spArgs('on_travel');
+			if(isset($param)){
+				$row['on_travel'] = $param;
+			}
+			
+			$param = $this->spArgs('on_listening');
+			if(isset($param)){
+				$row['on_listening'] = $param;
+			}
+			
+			if(spClass('users')->update($condition,$row)){
+				return $this->success_msg();
+			}else{
+				return $this->error_msg('数据更新失败');
+			}
+		}else {
+			return $this->error_msg('网络传输失败');
+		}
+	}
 	
+	function set_my_location(){
+		$condition = array(spClass('users')->pk => $this->spArgs('user_id'));
+		$row = array('my_x'=>$this->spArgs('x'),'my_y'=>$this->spArgs('y'),'device_id'=>$this->spArgs('device_id'));
+		
+		if(spClass('users')->update($condition,$row)){
+			return $this->success_msg();
+		}else{
+			return $this->error_msg('数据更新失败');
+		}
+	}
 	
+	function fetch_near_user(){
+		$range = $this->spArgs('range');
+		$x = $this->spArgs('x');
+		$y = $this->spArgs('y');
+		$row = 'user_id,username,sex,my_x as x,my_y as y';
+		$users = spClass('users')->near_users($x,$y,$range,$row);
+		if($users){
+			return $users;
+		}else{
+			$response = $this->error_msg('搜索结果为空');
+			return $response;	
+		}
+	}
+
 	/**
 	 * Android平台的用户登陆
 	 * 
@@ -98,6 +151,26 @@ class main extends general
 		$response = $this->register();
 		echo $this->json_response($response);
 	}
+	
+	//设置user表的on_travel,on_listening参数
+	function android_set_user_params(){
+		$response = $this->set_user_params();
+		echo $this->json_response($response);
+	}
+	
+	//设置我的当前位置
+	function android_set_my_location(){
+		$response = $this->set_my_location();
+		echo $this->json_response($response);
+	}
+	
+	//获取我位置周围的用户
+	function android_fetch_near_user(){
+		$result = $this->fetch_near_user();
+		$response['data'] = $result;
+		echo $this->json_response($response);
+	}
+	
 	
 	
 }

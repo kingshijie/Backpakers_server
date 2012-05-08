@@ -153,4 +153,19 @@ class users extends spModel
 			return FALSE;	
 		}
 	}
+	
+	//获取周围正在旅行
+	public function near_users($x,$y,$range,$row=null,$on_travel=null,$on_listening=null,$plus=null){
+		if($on_travel != null){
+			$sql = 'on_travel='.$on_travel.' AND ';
+		}
+		if($on_listening != null){
+			$sql = $sql.'on_listening='.$on_listening.' AND ';
+		}
+		if($plus != null){
+			$sql = $sql.' '.$plus.' AND ';	
+		}
+		$sql = $sql.'is_banned=0 AND my_x>'.($x-$range).' AND my_x<'.($x+$range).' AND my_y>'.($y-$range).' AND my_y<'.($y+$range);
+		return $this->findAll($sql,null,$row);	
+	}
 }
