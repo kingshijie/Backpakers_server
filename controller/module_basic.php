@@ -33,6 +33,7 @@ class module_basic extends general
 		//验证表单
 		$verifier_result = $this->table->spVerifier($this->spArgs());
 		if(FALSE == $verifier_result){
+			//往对应模块中添加数据
 			$creation = array();
 			$additions = array();
 			$creation['user_id'] = $this->spArgs('user_id');//创建者
@@ -44,13 +45,19 @@ class module_basic extends general
 			$creation['city'] = $this->spArgs('city');
 			$item = $this->table->create($creation);
 			if($item){
+				//往addition表中添加数据
 				$module_id = spClass('modules')->get_module_id($this->module_name);
 				$additions['user_id'] = $_SESSION['user_info']['user_id'];
 				$additions['module_id'] = $module_id;
 				$additions['item'] = $item;
 				$addition_id = spClass('additions')->create($additions);
 				if($addition_id){
-					$response = $this->success_msg();
+					//给用户加分
+					if(spClass('users')->add_credit($_SESSION['user_info']['user_id'])){
+						$response = $this->success_msg();
+					}else{
+						$response = $this->error_msg('数据库操作失败');
+					}
 				}else{
 					$response = $this->error_msg('数据库操作失败');
 				}
@@ -86,6 +93,7 @@ class module_basic extends general
 		}
 	}
 	
+	//获取项目
 	function fetch_item(){
 		$id = $this->spArgs('id');
 		if($id){

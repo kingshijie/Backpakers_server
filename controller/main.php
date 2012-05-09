@@ -122,6 +122,20 @@ class main extends general
 			return $response;	
 		}
 	}
+	
+	function fetch_user_info(){
+		$user_id = $this->spArgs('user_id');
+		$condition = array('user_id'=>$user_id);
+		$rows = 'username,credit';
+		$user = spClass('users')->find($condition,null,$rows);
+		$sql = 'SELECT COUNT(*) as addition_num FROM '.spClass('additions')->table.' WHERE user_id='.$user_id;
+		$result = spClass('additions')->findSql($sql);
+		$user['addition_num'] = $result[0]['addition_num'];
+		$sql = 'SELECT COUNT(*) as report_num FROM '.spClass('reports')->table.' WHERE user_id='.$user_id;
+		$result = spClass('reports')->findSql($sql);
+		$user['report_num'] = $result[0]['report_num'];
+		return $user;
+	}
 
 	/**
 	 * Android平台的用户登陆
@@ -171,6 +185,11 @@ class main extends general
 		echo $this->json_response($response);
 	}
 	
+	//获取用户信息
+	function android_fetch_user_info(){
+		$result = $this->fetch_user_info();
+		echo $this->json_response($result);
+	}
 	
 	
 }

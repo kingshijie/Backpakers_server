@@ -168,4 +168,14 @@ class users extends spModel
 		$sql = $sql.'is_banned=0 AND my_x>'.($x-$range).' AND my_x<'.($x+$range).' AND my_y>'.($y-$range).' AND my_y<'.($y+$range);
 		return $this->findAll($sql,null,$row);	
 	}
+	
+	//添加积分，默认为3分
+	public function add_credit($user_id,$credit=3){
+		$sql = 'update '.$this->table.' set credit=credit+'.$credit.' where user_id='.$user_id;
+		if($this->runSql($sql)){
+			return TRUE;
+		}else{
+			return FALSE;	
+		}
+	}
 }
